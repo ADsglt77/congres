@@ -1,78 +1,87 @@
+// model/Activites.php
 <?php
- 
-class  Activites{
+
+class Activites {
     private int $Id;
     private string $Nom;
     private string $description;
-    private decimal $prix;
+    private float $prix; // Utiliser float au lieu de decimal
 
-    public function getId(): int{
-        return $this->Id;
-    }
-    public function setId(int $nouveauId): void{
-        $this->Id = $nouveauId;
-    }
-    public function getNom(): string{
-        return $this->Nom;
-    }
-    public function setNom(string $nouveauNom): void{
-        $this->Nom = $nouveauNom;
-    }
-    public function getDescription(): string{
-        return $this->description;
-    }
-    public function setDescription(string $nouvelleDescription): void{
-        $this->description = $nouvelleDescription;
-    }
-    public function getPrix(): decimal{
-        return $this->prix;
-    }
-    public function setPrix(decimal $nouveauPrix): void{
-        $this->prix = $nouveauPrix;
-    }
-    public function __construct(int $unId , string $unNom, string $uneDescription, decimal $unPrix){ {
+    public function __construct(int $unId, string $unNom, string $uneDescription, float $unPrix) {
         $this->Id = $unId;
         $this->Nom = $unNom;
         $this->description = $uneDescription;
         $this->prix = $unPrix;
     }
-}
-    public static function getActivites(){
+
+    // Getters et Setters
+    public function getId(): int {
+        return $this->Id;
+    }
+
+    public function setId(int $nouveauId): void {
+        $this->Id = $nouveauId;
+    }
+
+    public function getNom(): string {
+        return $this->Nom;
+    }
+
+    public function setNom(string $nouveauNom): void {
+        $this->Nom = $nouveauNom;
+    }
+
+    public function getDescription(): string {
+        return $this->description;
+    }
+
+    public function setDescription(string $nouvelleDescription): void {
+        $this->description = $nouvelleDescription;
+    }
+
+    public function getPrix(): float {
+        return $this->prix;
+    }
+
+    public function setPrix(float $nouveauPrix): void {
+        $this->prix = $nouveauPrix;
+    }
+
+    // Méthodes pour manipuler les activités
+    public static function getActivites() {
         include "bd.php";
         $requete = "SELECT * FROM activites";
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
-        $lesActivites = $stmt->fetchAll();
-        return $lesActivites;
+        return $stmt->fetchAll();
     }
-    public static function getActivite($id){
+
+    public static function getActivite($id) {
         include "bd.php";
         $requete = "SELECT * FROM activites WHERE id = ?";
         $stmt = $pdo->prepare($requete);
-        $stmt->execute(array($id));
-        $activite = $stmt->fetch();
-        return $activite;
+        $stmt->execute([$id]);
+        return $stmt->fetch();
     }
-    public static function ajouterActivite($nom, $description, $prix){
+
+    public static function ajouterActivite($nom, $description, $prix) {
         include "bd.php";
         $requete = "INSERT INTO activites (nom, description, prix) VALUES (?, ?, ?)";
         $stmt = $pdo->prepare($requete);
-        $stmt->execute(array($nom, $description, $prix));
+        $stmt->execute([$nom, $description, $prix]);
     }
-    public static function modifierActivite($id, $nom, $description, $prix){
+
+    public static function modifierActivite($id, $nom, $description, $prix) {
         include "bd.php";
         $requete = "UPDATE activites SET nom = ?, description = ?, prix = ? WHERE id = ?";
         $stmt = $pdo->prepare($requete);
-        $stmt->execute(array($nom, $description, $prix, $id));
+        $stmt->execute([$nom, $description, $prix, $id]);
     }
-    public static function supprimerActivite($id){
+
+    public static function supprimerActivite($id) {
         include "bd.php";
         $requete = "DELETE FROM activites WHERE id = ?";
         $stmt = $pdo->prepare($requete);
-        $stmt->execute(array($id));
+        $stmt->execute([$id]);
     }
-    
 }
-
-
-?>
