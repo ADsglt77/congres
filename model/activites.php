@@ -1,6 +1,6 @@
 <?php
  
-class  Activités{
+class  Activites{
     private int $Id;
     private string $Nom;
     private string $description;
