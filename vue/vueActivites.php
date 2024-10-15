@@ -1,7 +1,7 @@
 <?php 
 include "./vue/entete.php";
 
-// LA VUE
+// LA VUEEEEEEEEEEEEEEEEEEE
 
 include "./vue/pied.php";
 ?>
