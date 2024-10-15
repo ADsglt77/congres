@@ -45,6 +45,33 @@ class  Activites{
         $lesActivites = $stmt->fetchAll();
         return $lesActivites;
     }
+    public static function getActivite($id){
+        include "bd.php";
+        $requete = "SELECT * FROM activites WHERE id = ?";
+        $stmt = $pdo->prepare($requete);
+        $stmt->execute(array($id));
+        $activite = $stmt->fetch();
+        return $activite;
+    }
+    public static function ajouterActivite($nom, $description, $prix){
+        include "bd.php";
+        $requete = "INSERT INTO activites (nom, description, prix) VALUES (?, ?, ?)";
+        $stmt = $pdo->prepare($requete);
+        $stmt->execute(array($nom, $description, $prix));
+    }
+    public static function modifierActivite($id, $nom, $description, $prix){
+        include "bd.php";
+        $requete = "UPDATE activites SET nom = ?, description = ?, prix = ? WHERE id = ?";
+        $stmt = $pdo->prepare($requete);
+        $stmt->execute(array($nom, $description, $prix, $id));
+    }
+    public static function supprimerActivite($id){
+        include "bd.php";
+        $requete = "DELETE FROM activites WHERE id = ?";
+        $stmt = $pdo->prepare($requete);
+        $stmt->execute(array($id));
+    }
+    
 }
 
 
