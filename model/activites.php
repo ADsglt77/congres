@@ -1,4 +1,3 @@
-// model/Activites.php
 <?php
 
 class Activites {

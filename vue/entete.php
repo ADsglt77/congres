@@ -5,11 +5,7 @@
         <link href="css/css.css" rel="stylesheet" type="text/css">
         <title></title>
     </head>
-<?php
-// IMPORTER LES FONCTIONS
-include "./modele/bd.php";
-include "./modele/activites.php";
-?>
+
 <body>
     <table>
 		<tr>
