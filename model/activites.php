@@ -4,7 +4,7 @@ class Activites {
     private int $Id;
     private string $Nom;
     private string $description;
-    private float $prix; // Utiliser float au lieu de decimal
+    private float $prix;
 
     public function __construct(int $unId, string $unNom, string $uneDescription, float $unPrix) {
         $this->Id = $unId;
@@ -13,7 +13,6 @@ class Activites {
         $this->prix = $unPrix;
     }
 
-    // Getters et Setters
     public function getId(): int {
         return $this->Id;
     }
@@ -46,7 +45,6 @@ class Activites {
         $this->prix = $nouveauPrix;
     }
 
-    // Méthodes pour manipuler les activités
     public static function getActivites() {
         include "bd.php";
         $requete = "SELECT * FROM activites";
