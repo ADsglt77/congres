@@ -69,14 +69,6 @@ class Activites {
         return $stmt->fetchAll();
     }
 
-    public static function getActivite() {
-        include "bd.php";
-        $requete = "SELECT * FROM activites WHERE id = ?";
-        $stmt = $pdo->prepare($requete);
-        $stmt->execute([$id]);
-        return $stmt->fetch();
-    }
-
     public static function ajouterActivite() {
         include "bd.php";
         $requete = "INSERT INTO activites (nom, description, prix) VALUES (?, ?, ?, ?, ?)";
