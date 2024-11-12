@@ -1,4 +1,4 @@
-// index.php
+
 <?php
 
 require 'model/Activites.php';
