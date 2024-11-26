@@ -18,7 +18,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('image/nature.jpg');
+            background-image: url('../image/nature.jpg');
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
@@ -201,18 +201,18 @@
     <!-- Images avec hover -->
     <div class="image-container">
         <div class="image-dance">
-            <a href="https://www.google.com">
-                <img src="image/dance.jpg" alt="Image de danse">
+            <a href="http://localhost/projet-activites/vue/vueActivites.php">
+                <img src="../image/dance.jpg" alt="Image de danse">
             </a>
         </div>
         <div class="image-vélo">
-            <a href="https://www.google.com">
-                <img src="image/vélo.jpg" alt="Image de vélo">
+            <a href="http://localhost/projet-activites/vue/vueActivites.php">
+                <img src="../image/vélo.jpg" alt="Image de vélo">
             </a>
         </div>
         <div class="image-acro">
-            <a href="https://www.google.com">
-                <img src="image/acrobranche.jpg" alt="Image d'acrobranche">
+            <a href="http://localhost/projet-activites/vue/vueActivites.php">
+                <img src="../image/acrobranche.jpg" alt="Image d'acrobranche">
             </a>
         </div>
     </div>
