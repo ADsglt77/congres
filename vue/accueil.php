@@ -201,17 +201,17 @@
     <!-- Images avec hover -->
     <div class="image-container">
         <div class="image-dance">
-            <a href="http://localhost/projet-activites/vue/vueActivites.php">
+        <a href="./?action=activites">
                 <img src="./image/dance.jpg" alt="Image de danse">
             </a>
         </div>
         <div class="image-vélo">
-            <a href="http://localhost/projet-activites/vue/vueActivites.php">
+        <a href="./?action=activites">
                 <img src="./image/vélo.jpg" alt="Image de vélo">
             </a>
         </div>
         <div class="image-acro">
-            <a href="http://localhost/projet-activites/vue/vueActivites.php">
+        <a href="./?action=activites">
                 <img src="./image/acrobranche.jpg" alt="Image d'acrobranche">
             </a>
         </div>
