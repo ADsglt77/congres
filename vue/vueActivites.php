@@ -1,8 +1,8 @@
 <?php
-    include "./vue/entete.php";
+    include "../vue/entete.php";
 ?>
 
 
 <?php
-    include "./vue/pied.php";
+    include "../vue/pied.php";
 ?>
