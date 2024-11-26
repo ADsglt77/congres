@@ -5,7 +5,7 @@ if (isset($_GET["action"])){
     $action = $_GET["action"];
 }
 else{
-    $action = "accueil";
+    $action = "defaut";
 }
 
 $fichier = controleurPrincipal($action);
