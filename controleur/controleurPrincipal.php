@@ -1,7 +1,6 @@
 <?php
 function controleurPrincipal($action){
     $lesActions = array();
-    $lesActions["accueil"] = "accueil.php";
     $lesActions["activites"] = "activites.php";
     $lesActions["congressiste"] = "congressiste.php";
 
