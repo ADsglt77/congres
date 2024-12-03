@@ -23,7 +23,14 @@
     <?php } ?>
 </table>
 
-<a href="./?action=ajouter">AJOUTER UNE ACTIVITE</a>
+<h1>Ajouter Activites</h1>
+<form action="./?action=activites" method="POST">
+    <input type="text" name="nom" placeholder="Nom de l'Activité" required/><br />
+    <input type="text" name="prix" placeholder="Prix de l'activité" required/><br />
+    <input type="time" name="heure" placeholder="Date de l'Activité" required/><br />
+    <input type="date" name="date" placeholder="Heure de l'Activité" required/><br />
+    <input type="submit" name="submit" value="Ajouter"/>
+</form>
 
 <?php
     include "./vue/pied.php";

@@ -3,10 +3,9 @@
     class Activites {
         private int $Id;
         private string $Nom;
-        private string $description;
-        private float $prix;
-        private time $heure;
-        private date $date;
+        private float $Prix;
+        private string $Heure;
+        private string $Date;
 
         public function __construct() {
 
@@ -32,32 +31,29 @@
             return $this->description;
         }
 
-        public function setDescription(string $nouvelleDescription): void {
-            $this->description = $nouvelleDescription;
-        }
 
         public function getPrix(): float {
-            return $this->prix;
+            return $this->Prix;
         }
 
         public function setPrix(float $nouveauPrix): void {
-            $this->prix = $nouveauPrix;
+            $this->Prix = $nouveauPrix;
         }
 
-        public function getHeure(): time {
-            return $this->heure;
+        public function getHeure(): string {
+            return $this->Heure;
         }
 
-        public function setHeure(time $nouvelleHeure): void {
-            $this->heure = $nouvelleHeure;
+        public function setHeure(string $nouvelleHeure): void {
+            $this->Heure = $nouvelleHeure;
         }
 
-        public function getDate(): date {
-            return $this->date;
+        public function getDate(): string {
+            return $this->Date;
         }
 
-        public function setDate(date $nouvelleDate): void {
-            $this->date = $nouvelleDate;
+        public function setDate(string $nouvelleDate): void {
+            $this->Date = $nouvelleDate;
         }
 
         public function getLesActivites() {
@@ -71,12 +67,12 @@
 
         public function ajouterActivite() {
             include "bd.php";
-            $req = "INSERT INTO activite (nom, prix, heure, date) VALUES (?, ?, ?, ?)";
+            $req = "INSERT INTO activite VALUES (null, ?, ?, ?, ?)";
             $stmt = $pdo->prepare($req);
-            $stmt->bindParam(1, $this->Nom);
-            $stmt->bindParam(2, $this->prix);
-            $stmt->bindParam(3, $this->heure);
-            $stmt->bindParam(4, $this->date);
-            $stmt->execute();
+            $stmt->bindValue(1, $this->Nom);
+            $stmt->bindValue(2, $this->Prix);
+            $stmt->bindValue(3, $this->Date);
+            $stmt->bindValue(4, $this->Heure);
+            return $stmt->execute();
         }
     }
