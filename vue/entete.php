@@ -5,7 +5,14 @@
         <link href="css/css.css" rel="stylesheet" type="text/css">
         <title></title>
     </head>
-
+<?php
+include_once "model/activites.php";
+include_once "model/congressiste.php";
+?>
 <body>
-</body>
-</html>
+    <table>
+		<tr>
+			<td><a href="./?action=activites">Activites</a></td>
+            <td><a href="./?action=congressiste">Congressiste</a></td>
+        </tr>
+    </table>

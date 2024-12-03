@@ -3,7 +3,6 @@ function controleurPrincipal($action){
     $lesActions = array();
     $lesActions["activites"] = "activites.php";
     $lesActions["congressiste"] = "congressiste.php";
-    $lesActions["accueil"] = "../vue/accueil.php";
 
 
  

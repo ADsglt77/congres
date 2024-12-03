@@ -1,5 +1,5 @@
 <?php
-    include "../vue/entete.php";
+    include "./vue/entete.php";
 ?>
 <h1>Bienvenue à l'inscription aux activités</h1>
 
@@ -25,5 +25,5 @@
 
 
 <?php
-    include "../vue/pied.php";
+    include "./vue/pied.php";
 ?>
