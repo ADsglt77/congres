@@ -4,19 +4,21 @@
 <h1>Bienvenue à l'inscription aux activités</h1>
 
 <h1>Liste des Activités</h1>
-<table border="1">
+<table>
     <tr>
         <th>ID</th>
         <th>Nom</th>
-        <th>Description</th>
         <th>Prix</th>
+        <th>Date</th>
+        <th>Heure</th>
     </tr>
     <?php foreach ($LesActivites as $activite) { ?>
         <tr>
-            <td><?php echo $activite->getId(); ?></td>
-            <td><?php echo $activite->getNom(); ?></td>
-            <td><?php echo $activite->getDescription(); ?></td>
-            <td><?php echo $activite->getPrix(); ?> €</td>
+            <td style='padding: 15px;'><?php echo $activite->id; ?></td>
+            <td style='padding: 15px;'><?php echo $activite->nom; ?></td>
+            <td style='padding: 15px;'><?php echo $activite->prix; ?> €</td>
+            <td style='padding: 15px;'><?php echo $activite->date_activite; ?></td>
+            <td style='padding: 15px;'><?php echo $activite->heure; ?></td>
         </tr>
     <?php } ?>
 </table>
