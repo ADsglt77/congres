@@ -48,45 +48,29 @@
         public function setPrix(float $nouveauPrix): void {
             $this->prix = $nouveauPrix;
         }
+
         public function getHeure(): time {
             return $this->heure;
         }
+
         public function setHeure(time $nouvelleHeure): void {
             $this->heure = $nouvelleHeure;
         }
+
         public function getDate(): date {
             return $this->date;
         }
+
         public function setDate(date $nouvelleDate): void {
             $this->date = $nouvelleDate;
         }
 
-        public static function getActivites() {
+        public function getLesActivites() {
             include "bd.php";
-            $requete = "SELECT * FROM activites";
-            $stmt = $pdo->prepare($requete);
+            $req = "SELECT * FROM activites";
+            $stmt = $conn->prepare($req);
             $stmt->execute();
-            return $stmt->fetchAll();
-        }
-
-        public static function ajouterActivite() {
-            include "bd.php";
-            $requete = "INSERT INTO activites (nom, description, prix) VALUES (?, ?, ?, ?, ?)";
-            $stmt = $pdo->prepare($requete);
-            $stmt->execute();
-        }
-
-        public static function modifierActivite() {
-            include "bd.php";
-            $requete = "UPDATE activites SET nom = ?, description = ?, prix = ?, heure = ?, date = ? WHERE id = ?";
-            $stmt = $pdo->prepare($requete);
-            $stmt->execute();
-        }
-
-        public static function supprimerActivite() {
-            include "bd.php";
-            $requete = "DELETE FROM activites WHERE id = ?";
-            $stmt = $pdo->prepare($requete);
-            $stmt->execute();
+            $lesActivites = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return $lesActivites;
         }
     }

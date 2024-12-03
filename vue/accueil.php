@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <h1>Bienvenue à l'inscription aux activités</h1>
+    
 </body>
 
 </html>
