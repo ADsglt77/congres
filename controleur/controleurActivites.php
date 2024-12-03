@@ -3,6 +3,7 @@
 include "model/activites.php";
 
 // On récupère les activités etc ...
-$LesActivites = getLesActivites();
+$UneActivite = new Activites();
+$LesActivites = $UneActivite->getLesActivites();
 
 include_once "vue/vueActivites.php";
