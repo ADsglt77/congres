@@ -5,7 +5,6 @@ include "model/activites.php";
 $UneActivite = new Activites();
 $LesActivites = $UneActivite->getLesActivites();
 
-
 if (isset($_POST["submit"])) {
     // Récupérer les données envoyées par le formulaire    
     $nouvelleActivite = new Activites();
@@ -21,6 +20,18 @@ if (isset($_POST["submit"])) {
         header("location: index.php?action=");
     } else {
         echo "<p>Erreur lors de l'ajout de l'activité.</p>";
+    }
+}
+
+if(isset($_GET["id"])) {
+    $nouvelleActivite = new Activites();
+
+    $nouvelleActivite->setId($_GET["id"]);
+
+    if($nouvelleActivite->supprimerActivite()) {
+        header("location: index.php?action=");
+    } else {
+        echo "<p>Erreur lors de la suppression de l'activité.</p>";
     }
 }
 

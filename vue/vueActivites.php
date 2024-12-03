@@ -19,6 +19,7 @@
             <td style='padding: 15px;'><?php echo $activite->prix; ?> €</td>
             <td style='padding: 15px;'><?php echo $activite->date_activite; ?></td>
             <td style='padding: 15px;'><?php echo $activite->heure; ?></td>
+            <td style='padding: 15px;'><a href='index.php?action=activites&id=<?php echo $activite->id ?>'>SUPPRIMER</a></td>
         </tr>
     <?php } ?>
 </table>

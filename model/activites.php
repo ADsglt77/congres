@@ -75,4 +75,12 @@
             $stmt->bindValue(4, $this->Heure);
             return $stmt->execute();
         }
+
+        public function supprimerActivite() {
+            include "bd.php";
+            $req = "DELETE FROM activite WHERE id = ?";
+            $stmt = $pdo->prepare($req);
+            $stmt->bindValue(1, $this->Id);
+            return $stmt->execute();
+        }
     }
