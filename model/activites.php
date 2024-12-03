@@ -8,13 +8,8 @@
         private time $heure;
         private date $date;
 
-        public function __construct(int $unId, string $unNom, string $uneDescription, float $unPrix, time $uneHeure, date $uneDate) {
-            $this->Id = $unId;
-            $this->Nom = $unNom;
-            $this->description = $uneDescription;
-            $this->prix = $unPrix;
-            $this->heure = $uneHeure;
-            $this->date = $uneDate;
+        public function __construct() {
+
         }
 
         public function getId(): int {
@@ -67,8 +62,8 @@
 
         public function getLesActivites() {
             include "bd.php";
-            $req = "SELECT * FROM activites";
-            $stmt = $conn->prepare($req);
+            $req = "SELECT * FROM activite";
+            $stmt = $pdo->prepare($req);
             $stmt->execute();
             $lesActivites = $stmt->fetchAll(PDO::FETCH_OBJ);
             return $lesActivites;
