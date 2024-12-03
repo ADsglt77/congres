@@ -70,13 +70,13 @@
         }
         public function ajouterActivite() {
             include "bd.php";
-            $req = "INSERT INTO activite (nom, description, prix, heure, date) VALUES (:nom, :description, :prix, :heure,)";
+            $req = "INSERT INTO activite (nom, description, prix, heure, date) VALUES (?nom, ?description, ?prix, ?heure, ?date)";
             $stmt = $pdo->prepare($req);
-            $stmt->bindParam(':nom', $this->Nom);
-            $stmt->bindParam(':description', $this->description);
-            $stmt->bindParam(':prix', $this->prix);
-            $stmt->bindParam(':heure', $this->heure);
-            $stmt->bindParam(':date', $this->date);
+            $stmt->bindParam('?nom', $this->Nom);
+            $stmt->bindParam('?description', $this->description);
+            $stmt->bindParam('?prix', $this->prix);
+            $stmt->bindParam('?heure', $this->heure);
+            $stmt->bindParam('?date', $this->date);
             $stmt->execute();
         }
     }
