@@ -23,6 +23,8 @@
     <?php } ?>
 </table>
 
+<a href="./?action=ajouter">AJOUTER UNE ACTIVITE</a>
+
 <?php
     include "./vue/pied.php";
 ?>
