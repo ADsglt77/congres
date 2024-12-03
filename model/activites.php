@@ -68,4 +68,11 @@
             $lesActivites = $stmt->fetchAll(PDO::FETCH_OBJ);
             return $lesActivites;
         }
+      
+public function ajouterActivite() {
+    include "bd.php";
+    $req = "INSERT INTO activite (nom, description, prix, heure, date) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $pdo->prepare($req);
+    $stmt->execute([$this->Nom, $this->description, $this->prix, $this->heure, $this->date]);
+}
     }
