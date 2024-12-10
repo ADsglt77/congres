@@ -34,5 +34,18 @@ if(isset($_GET["id"])) {
         echo "<p>Erreur lors de la suppression de l'activité.</p>";
     }
 }
-
+if (isset($_POST["modifier"])) {
+    $activite = new Activites();
+    $activite->setId($_POST["id"]);
+    $activite->setNom($_POST["nom"]);
+    $activite->setPrix($_POST["prix"]);
+    $activite->setDate($_POST["date"]);
+    $activite->setHeure($_POST["heure"]);
+ 
+    if ($activite->modifierActivite()) {
+        header("location: index.php?action=");
+    } else {
+        echo "<p>Erreur lors de la modification de l'activité.</p>";
+    }
+}
 include_once "vue/vueActivites.php";
