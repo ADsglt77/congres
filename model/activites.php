@@ -83,4 +83,15 @@
             $stmt->bindValue(1, $this->Id);
             return $stmt->execute();
         }
+        public function modifierActivité() {
+            include "bd.php";
+            $req = "UPDATE activite SET nom = ?, prix = ?, date = ?, heure = ? WHERE id = ?";
+            $stmt = $pdo->prepare($req);
+            $stmt->bindValue(1, $this->Nom);
+            $stmt->bindValue(2, $this->Prix);
+            $stmt->bindValue(3, $this->Date);
+            $stmt->bindValue(4, $this->Heure);
+            $stmt->bindValue(5, $this->Id);
+            return $stmt->execute();
+        }
     }
