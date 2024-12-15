@@ -1,39 +1,39 @@
 <?php include "./vue/entete.php"; ?>
 
 <style>
-    select, button {
-        padding: 10px;
-        font-size: 16px;
-        margin: 10px 0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        width: 100%;
-        box-sizing: border-box;
-    }
+select, button {
+    padding: 10px;
+    font-size: 16px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
 
-    select:focus, button:focus {
-        outline: none;
-        border-color: #5cb85c;
-    }
+select:focus, button:focus {
+    outline: none;
+    border-color: #5cb85c;
+}
 
-    button {
-        background-color: #5cb85c;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
+button {
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
 
-    button:hover {
-        background-color: #4cae4c;
-    }
+button:hover {
+    background-color: #4cae4c;
+}
 
-    button.danger {
-        background-color: #d9534f;
-    }
+button.danger {
+    background-color: #d9534f;
+}
 
-    button.danger:hover {
-        background-color: #c9302c;
-    }
+button.danger:hover {
+    background-color: #c9302c;
+}
 </style>
 
 
