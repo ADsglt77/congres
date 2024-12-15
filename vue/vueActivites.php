@@ -4,6 +4,10 @@
 
 <style>
 
+h1 {
+    margin-top: 20px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -32,11 +36,6 @@ tr:nth-child(odd) {
 
 tr:hover {
     background-color: #f1f1f1;
-    }
-
-.center h1 {
-    color: #333;
-    font-family: 'Arial', sans-serif;
 }
 
 form input[type="text"],
@@ -63,6 +62,17 @@ form input[type="submit"] {
 form input[type="submit"]:hover {
     background-color: #4cae4c;
 }
+
+.btn a {
+    position: relative;
+    margin: 10px 0;
+    padding: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    left: 0;
+}
 </style>
 
 
@@ -79,6 +89,8 @@ form input[type="submit"]:hover {
                 <th>Prix</th>
                 <th>Date</th>
                 <th>Heure</th>
+                <th></th>
+                <th></th>
             </tr>
             <?php foreach ($LesActivites as $activite) { ?>
                 <tr>
@@ -92,35 +104,43 @@ form input[type="submit"]:hover {
                 </tr>
             <?php } ?>
         </table>
-        <h1>Ajouter Activites</h1>
-        <form action="./?action=activites" method="POST">
-            <input type="text" name="nom" placeholder="Nom de l'Activité" required/><br />
-            <input type="number" name="prix" placeholder="Prix de l'activité" required/><br />
-            <input type="time" name="heure" placeholder="Date de l'Activité" required/><br />
-            <input type="date" name="date" placeholder="Heure de l'Activité" required/><br />
-            <input type="submit" name="ajouter" value="Ajouter"/>
-        </form>
+        <div class="btn">
+            <a href='index.php?action=activites&ajouter='>AJOUTER UNE ACTIVITE</a>
+        </div>
         <?php 
-        //print_r($_GET["modif"]);
-        if(isset($_GET["modif"])) {
-            
-            $nouvelleActivite = new Activites();
-            $nouvelleActivite->setId((int) $_GET["modif"]);
+                    //print_r($_GET["modif"]);
+                    if(isset($_GET["modif"])) {
+                        
+                        $nouvelleActivite = new Activites();
+                        $nouvelleActivite->setId((int) $_GET["modif"]);
 
-            $activite = $nouvelleActivite->getActiviteById();
+                        $activite = $nouvelleActivite->getActiviteById();
 
-            ?>    
-            <h1>Modifier Activite</h1>
-            <form action="./?action=activites&modif=<?php echo $_GET['modif']; ?>" method="POST">
-                <input type="text" name="nom" placeholder="Nom de l'Activité" value="<?php echo $activite->nom; ?>" required/><br />
-                <input type="number" name="prix" placeholder="Prix de l'activité" value="<?php echo $activite->prix; ?>" required/><br />
-                <input type="time" name="heure" value="<?php echo $activite->heure; ?>" required/><br />
-                <input type="date" name="date" value="<?php echo $activite->date_activite; ?>" required/><br />
-                <input type="submit" name="modifier" value="Modifier"/>
-            </form>
-            <?php
-        }
-        ?>
+                        ?>    
+                        <h1>Modifier Activite</h1>
+                        <form action="./?action=activites&modif=<?php echo $_GET['modif']; ?>" method="POST">
+                            <input type="text" name="nom" placeholder="Nom de l'Activité" value="<?php echo $activite->nom; ?>" required/><br />
+                            <input type="number" name="prix" placeholder="Prix de l'activité" value="<?php echo $activite->prix; ?>" required/><br />
+                            <input type="time" name="heure" value="<?php echo $activite->heure; ?>" required/><br />
+                            <input type="date" name="date" value="<?php echo $activite->date_activite; ?>" required/><br />
+                            <input type="submit" name="modifier" value="Modifier"/>
+                        </form>
+                        <?php
+                    } if(isset($_GET["ajouter"])) {
+                        ?>    
+                        <h1>Ajouter Activites</h1>
+                        <form action="./?action=activites" method="POST">
+                            <input type="text" name="nom" placeholder="Nom de l'Activité" required/><br />
+                            <input type="number" name="prix" placeholder="Prix de l'activité" required/><br />
+                            <input type="time" name="heure" placeholder="Date de l'Activité" required/><br />
+                            <input type="date" name="date" placeholder="Heure de l'Activité" required/><br />
+                            <input type="submit" name="ajouter" value="Ajouter"/>
+                        </form>
+                        <?php
+                    }
+                ?>
+        
+
     </div>
 </div>
 
