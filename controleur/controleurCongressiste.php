@@ -35,7 +35,7 @@ if (isset($_POST["inscrire"])) {
     if ($unCongressiste->inscrireActivite($idActivite)) {
         $message = "Le congressiste a été inscrit à l'activité avec succès.";
     } else {
-        $message = "Erreur : le congressiste est déjà inscrit ou une facture existe.";
+        $message = "Erreur : le congressiste est déjà inscrit.";
     }
     $activiteSelectionnee = $_POST["id_activite"];
     $congressisteSelectionne = $_POST["id_congressiste"];
