@@ -75,8 +75,6 @@ form input[type="submit"]:hover {
 }
 </style>
 
-
-
 <div class="container">
     <div class="center">
 
@@ -99,8 +97,8 @@ form input[type="submit"]:hover {
                     <td style='padding: 15px;'><?php echo $activite->prix; ?> €</td>
                     <td style='padding: 15px;'><?php echo $activite->date_activite; ?></td>
                     <td style='padding: 15px;'><?php echo $activite->heure; ?></td>
-                    <td style='padding: 15px;'><a href='index.php?action=activites&supp=<?php echo $activite->id ?>'>SUPPRIMER</a></td>
-                    <td style='padding: 15px;'><a href='index.php?action=activites&modif=<?php echo $activite->id ?>'>MODIFIER</a></td>
+                    <td style='padding: 15px;'><a href='index.php?action=activites&supp=<?php echo $activite->id ?>' style="color: red;">SUPPRIMER</a></td>
+                    <td style='padding: 15px;'><a href='index.php?action=activites&modif=<?php echo $activite->id ?>' style="color: blue;">MODIFIER</a></td>
                 </tr>
             <?php } ?>
         </table>

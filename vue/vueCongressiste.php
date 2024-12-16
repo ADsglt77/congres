@@ -1,106 +1,125 @@
-<?php include "./vue/entete.php"; ?>
+<?php
+    include "./vue/entete.php";
+?>
 
 <style>
-select, button {
-    padding: 10px;
-    font-size: 16px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+h1 {
+    margin-top: 20px;
+}
+
+table {
     width: 100%;
-    box-sizing: border-box;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
 }
 
-select:focus, button:focus {
-    outline: none;
-    border-color: #5cb85c;
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
 }
 
-button {
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+form input[type="radio"] {
+    margin: 10px 10px 10px 0;
+    transform: scale(1.2); /* Agrandit légèrement les boutons radio */
+}
+
+form input[type="submit"] {
+    margin: 10px 0;
+    padding: 8px;
+    font-size: 16px;
     background-color: #5cb85c;
     color: white;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
 }
 
-button:hover {
+form input[type="submit"]:hover {
     background-color: #4cae4c;
 }
 
-button.danger {
-    background-color: #d9534f;
+.btn a {
+    margin: 10px 0;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-decoration: none;
+    background-color: #5cb85c;
+    color: white;
+    display: inline-block;
 }
 
-button.danger:hover {
-    background-color: #c9302c;
+.btn a:hover {
+    background-color: #4cae4c;
 }
 </style>
-
 
 <div class="container">
     <div class="center">
 
-        <h1>Gestion des inscriptions</h1>
-        <?php if (!empty($message)) : ?>
-            <p><?php echo htmlspecialchars($message); ?></p>
-        <?php endif; ?>
+        <h1>Gestion des Congressistes</h1>
+        <h2>Liste des Congressistes</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Code Postal</th>
+                <th>Date d'Inscription</th>
+                <th>Préférence Hôtel</th>
+                <th></th>
+            </tr>
+            <?php foreach ($LesCongressistes as $congressiste) { ?>
+                <tr>
+                    <td><?php echo $congressiste->id; ?></td>
+                    <td><?php echo $congressiste->nom_congressiste; ?></td>
+                    <td><?php echo $congressiste->adresse; ?></td>
+                    <td><?php echo $congressiste->codepostal; ?></td>
+                    <td><?php echo $congressiste->date_inscription; ?></td>
+                    <td><?php echo $congressiste->preference_hotel; ?></td>
+                    <td><a href="?action=congressiste&ajouter=<?php echo $congressiste->id; ?>" style="color: blue;">AJOUTER À UNE ACTIVITÉ</a></td>
+                </tr>
+            <?php } ?>
+        </table>
 
-        <!-- Étape 1 : Choisir une activité -->
-        <section>
-            <h2>Étape 1 : Choisissez une activité</h2>
-            <form method="POST">
-                <select name="id_activite" required>
-                    <option value="">-- Sélectionnez une activité --</option>
-                    <?php foreach ($LesActivites as $activite) : ?>
-                        <option value="<?php echo $activite->id; ?>" 
-                            <?php echo (!empty($activiteSelectionnee) && $activiteSelectionnee == $activite->id) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($activite->nom) . " - " . htmlspecialchars($activite->prix) . " €"; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <button type="submit" name="choisir_activite">Valider l'activité</button>
+        <?php
+        if(isset($_GET["ajouter"])) {
+            $idCongressiste = (int)$_GET["ajouter"];
+            ?>
+            <h1>Choisir l'activité pour le congressiste <?php echo $congressiste->nom_congressiste; ?> :</h1>
+            <form action="./?action=congressiste" method="POST">
+                <?php foreach ($LesActivites as $activite) { ?>
+                    <label>
+                        <input type="radio" name="id_activite" value="<?php echo $activite->id; ?>" required>
+                        <?php echo $activite->nom; ?>
+                    </label>
+                    <br>
+                <?php } ?>
+                <input type="hidden" name="id_congressiste" value="<?php echo $idCongressiste; ?>">
+                <input type="submit" name="ajouter" value="Ajouter">
             </form>
-        </section>
-
-        <!-- Étape 2 : Choisir un congressiste -->
-        <?php if (!empty($activiteSelectionnee)) : ?>
-            <section>
-                <h2>Étape 2 : Choisissez un congressiste</h2>
-                <form method="POST">
-                    <input type="hidden" name="id_activite" value="<?php echo htmlspecialchars($activiteSelectionnee); ?>">
-                    <select name="id_congressiste" required>
-                        <option value="">-- Sélectionnez un congressiste --</option>
-                        <?php foreach ($LesCongressistes as $congressiste) : ?>
-                            <option value="<?php echo $congressiste->id; ?>" 
-                                <?php echo (!empty($congressisteSelectionne) && $congressisteSelectionne == $congressiste->id) ? 'selected' : ''; ?>>
-                                <?php echo htmlspecialchars($congressiste->nom_congressiste); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <button type="submit" name="choisir_congressiste">Valider le congressiste</button>
-                </form>
-            </section>
-        <?php endif; ?>
-
-        <!-- Étape 3 : Inscrire ou annuler -->
-        <?php if (!empty($activiteSelectionnee) && !empty($congressisteSelectionne)) : ?>
-            <section>
-                <h2>Étape 3 : Inscrire ou annuler</h2>
-                <form method="POST">
-                    <input type="hidden" name="id_activite" value="<?php echo htmlspecialchars($activiteSelectionnee); ?>">
-                    <input type="hidden" name="id_congressiste" value="<?php echo htmlspecialchars($congressisteSelectionne); ?>">
-                    <button type="submit" name="inscrire">Inscrire à l'activité</button>
-                    <button type="submit" name="annuler" class="danger">Annuler l'inscription</button>
-                </form>
-            </section>
-        <?php endif; ?>
-    
+        <?php } ?>
     </div>
 </div>
 
-
 <?php include "./vue/pied.php"; ?>
-
-
-
-
