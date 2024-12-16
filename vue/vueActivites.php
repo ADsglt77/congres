@@ -108,7 +108,6 @@ form input[type="submit"]:hover {
             <a href='index.php?action=activites&ajouter='>AJOUTER UNE ACTIVITE</a>
         </div>
         <?php 
-                    //print_r($_GET["modif"]);
                     if(isset($_GET["modif"])) {
                         
                         $nouvelleActivite = new Activites();
