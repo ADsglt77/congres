@@ -50,7 +50,13 @@ class Congressiste {
         $lesCongressistes = $stmt->fetchAll(PDO::FETCH_OBJ);
         return $lesCongressistes;
     }
-
+    public function getToutesActivites() {
+        include "bd.php";
+        $req = "SELECT * FROM activite";
+        $stmt = $pdo->prepare($req);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
     public function inscrireActivite(int $idActivite): bool {
         include "bd.php";
 
@@ -62,6 +68,15 @@ class Congressiste {
         if ($stmt->rowCount() > 0) {
             return false; // Facture existante
         }
+
+
+
+
+
+
+
+
+
 
         // Vérifier si le congressiste est déjà inscrit
         $reqInscription = "SELECT * FROM participer_activite WHERE id_congressiste = ? AND id_activite = ?";
@@ -99,6 +114,23 @@ class Congressiste {
         $stmt->bindValue(1, $this->Id);
         $stmt->bindValue(2, $idActivite);
         return $stmt->execute();
+    }
+    function getInscritsPourActivite($id_activite) {
+        global $pdo; // Si tu utilises une connexion PDO globale, sinon adapte cette ligne
+    
+        // Requête SQL pour récupérer les inscrits à une activité spécifique
+        $sql = "SELECT c.nom_congressiste, a.nom AS nom_activite, c.id AS id_congressiste
+                FROM congressiste c
+                JOIN participer_activite pa ON c.id = pa.id_congressiste
+                JOIN activite a ON pa.id_activite = a.id
+                WHERE a.id = ?";
+        
+        // Préparation et exécution de la requête
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id_activite]);
+        
+        // Retourner les résultats sous forme de tableau associatif
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>
