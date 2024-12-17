@@ -44,8 +44,6 @@ button.danger:hover {
         <?php if (!empty($message)) : ?>
             <p><?php echo htmlspecialchars($message); ?></p>
         <?php endif; ?>
-
-        <!-- Étape 1 : Choisir une activité -->
         <section>
             <h2>Étape 1 : Choisissez une activité</h2>
             <form method="POST">
@@ -61,8 +59,6 @@ button.danger:hover {
                 <button type="submit" name="choisir_activite">Valider l'activité</button>
             </form>
         </section>
-
-        <!-- Étape 2 : Choisir un congressiste -->
         <?php if (!empty($activiteSelectionnee)) : ?>
             <section>
                 <h2>Étape 2 : Choisissez un congressiste</h2>
@@ -81,8 +77,6 @@ button.danger:hover {
                 </form>
             </section>
         <?php endif; ?>
-
-        <!-- Étape 3 : Inscrire ou annuler -->
         <?php if (!empty($activiteSelectionnee) && !empty($congressisteSelectionne)) : ?>
             <section>
                 <h2>Étape 3 : Inscrire ou annuler</h2>
