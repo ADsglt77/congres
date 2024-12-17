@@ -29,7 +29,6 @@ if(isset($_GET["supp"])) {
     }
 }
 
-
 if (isset($_POST["modifier"])) {
     
         $modifierActivite = new Activites();

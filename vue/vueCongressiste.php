@@ -108,16 +108,16 @@ form input[type="submit"]:hover {
             ?>
             <h1>Choisir l'activité pour le congressiste <?php echo $congressiste->nom_congressiste; ?> :</h1>
             <form action="./?action=congressiste" method="POST">
-                <?php foreach ($LesActivites as $activite) { ?>
-                    <label>
-                        <input type="radio" name="id_activite" value="<?php echo $activite->id; ?>" required>
-                        <?php echo $activite->nom; ?>
-                    </label>
-                    <br>
-                <?php } ?>
-                <input type="hidden" name="id_congressiste" value="<?php echo $idCongressiste; ?>">
-                <input type="submit" name="ajouter" value="Ajouter">
-            </form>
+            <?php foreach ($LesActivites as $activite) { ?>
+                <label>
+                    <input type="checkbox" name="id_activite[]" value="<?php echo $activite->id; ?>">
+                    <?php echo $activite->nom; ?>
+                </label>
+                <br>
+            <?php } ?>
+            <input type="hidden" name="id_congressiste" value="<?php echo $idCongressiste; ?>">
+            <input type="submit" name="ajouter" value="Ajouter">
+        </form>
         <?php } ?>
     </div>
 </div>

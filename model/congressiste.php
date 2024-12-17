@@ -3,11 +3,11 @@ require_once "activites.php";
 
 class Congressiste {
     private int $Id;
-    private bolean $petitDej;
+    private bool $petitDej;
     private string $Nom;
     private string $Adresse;
     private int $CodePostal;
-    private date $DateInscription;
+    private string $DateInscription;
     private string $PrefHotel;
     private int $IdOrganisme;
     private int $IdHotel;
@@ -17,6 +17,10 @@ class Congressiste {
 
     public function getId(): int { 
         return $this->Id; 
+    }
+
+    public function setId(int $nouvelId): void { 
+        $this->Id = $nouvelId; 
     }
 
     public function getNom(): string { 
@@ -102,37 +106,18 @@ class Congressiste {
         return $UnCongressiste;
     }
 
-    public function ajouterCongressiste() {
-        include "bd.php";
-        $req = "INSERT INTO congressiste VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $pdo->prepare($req);
-        $stmt->bindValue(1, $this->Nom);
-        $stmt->bindValue(2, $this->Prix);
-        $stmt->bindValue(3, $this->Date);
-        $stmt->bindValue(4, $this->Heure);
-        return $stmt->execute();
-    }
-
-    public function inscrireActivite(int $idActivite): bool {
+    public function inscrireActivite(): bool {
         include "bd.php";
         $req = "INSERT INTO participer_activite (id_congressiste, id_activite) VALUES (?, ?)";
         $stmt = $pdo->prepare($req);
         return $stmt->execute([$this->Id, $idActivite]);
-    }
-
-    public function getActivitesInscrites(): array {
+    }  
+    
+    public function supprimerCongressisteActivite(): bool {
         include "bd.php";
-        $req = "
-            SELECT a.id, a.nom, a.prix, a.date_activite, a.heure
-            FROM activite a
-            INNER JOIN participer_activite pa ON a.id = pa.id_activite
-            WHERE pa.id_congressiste = ?
-        ";
+        $req = "INSERT INTO participer_activite (id_congressiste, id_activite) VALUES (?, ?)";
         $stmt = $pdo->prepare($req);
-        $stmt->execute([$this->Id]);
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
-    }
-    
-    
+        return $stmt->execute([$this->Id, $idActivite]);
+    }  
 }
 ?>
