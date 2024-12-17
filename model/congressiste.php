@@ -106,18 +106,11 @@ class Congressiste {
         return $UnCongressiste;
     }
 
-    public function inscrireActivite(): bool {
+    public function inscrireActivite(int $idActivite): bool {
         include "bd.php";
         $req = "INSERT INTO participer_activite (id_congressiste, id_activite) VALUES (?, ?)";
         $stmt = $pdo->prepare($req);
         return $stmt->execute([$this->Id, $idActivite]);
-    }  
-    
-    public function supprimerCongressisteActivite(): bool {
-        include "bd.php";
-        $req = "INSERT INTO participer_activite (id_congressiste, id_activite) VALUES (?, ?)";
-        $stmt = $pdo->prepare($req);
-        return $stmt->execute([$this->Id, $idActivite]);
-    }  
+    }   
 }
 ?>
