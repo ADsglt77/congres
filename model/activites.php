@@ -105,4 +105,25 @@
             $stmt->bindValue(5, $this->Id);
             return $stmt->execute();
         }
+        public function supprimerActiviteEtAffiliations() {
+            include "bd.php";
+        
+            // Supprimer les enregistrements associés dans participer_activite
+            $reqSuppressionAffiliations = "DELETE FROM participer_activite WHERE id_activite = ?";
+            $stmt = $pdo->prepare($reqSuppressionAffiliations);
+            $stmt->bindValue(1, $this->Id, PDO::PARAM_INT);
+            $stmt->execute();
+        
+            // Supprimer les congressistes associés (si nécessaire)
+            $reqSuppressionCongressistes = "DELETE FROM congressiste WHERE id IN (SELECT id_congressiste FROM participer_activite WHERE id_activite = ?)";
+            $stmt = $pdo->prepare($reqSuppressionCongressistes);
+            $stmt->bindValue(1, $this->Id, PDO::PARAM_INT);
+            $stmt->execute();
+        
+            // Supprimer l'activité
+            $reqSuppressionActivite = "DELETE FROM activite WHERE id = ?";
+            $stmt = $pdo->prepare($reqSuppressionActivite);
+            $stmt->bindValue(1, $this->Id, PDO::PARAM_INT);
+            return $stmt->execute();
+        }
     }
