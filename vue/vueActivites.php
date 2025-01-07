@@ -64,18 +64,46 @@ form input[type="submit"]:hover {
 }
 
 .btn a {
-    position: relative;
+    display: inline-block;
     margin: 10px 0;
-    padding: 8px;
+    padding: 10px 20px;
     font-size: 16px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
+    color: white;
+    background-color: #5cb85c;
+    border: none;
     border-radius: 4px;
-    left: 0;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn a:hover {
+    background-color: #4cae4c;
+}
+
+a.delete {
+    background-color: #d9534f;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+a.delete:hover {
+    background-color: #c9302c;
+}
+
+a.modify {
+    background-color: #f0ad4e;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+a.modify:hover {
+    background-color: #ec971f;
 }
 </style>
-
-
 
 <div class="container">
     <div class="center">
@@ -99,8 +127,8 @@ form input[type="submit"]:hover {
                     <td style='padding: 15px;'><?php echo $activite->prix; ?> €</td>
                     <td style='padding: 15px;'><?php echo $activite->date_activite; ?></td>
                     <td style='padding: 15px;'><?php echo $activite->heure; ?></td>
-                    <td style='padding: 15px;'><a href='index.php?action=activites&supp=<?php echo $activite->id ?>'>SUPPRIMER</a></td>
-                    <td style='padding: 15px;'><a href='index.php?action=activites&modif=<?php echo $activite->id ?>'>MODIFIER</a></td>
+                    <td style='padding: 15px;'><a class="delete" href='index.php?action=activites&supp=<?php echo $activite->id ?>'>SUPPRIMER</a></td>
+                    <td style='padding: 15px;'><a class="modify" href='index.php?action=activites&modif=<?php echo $activite->id ?>'>MODIFIER</a></td>
                 </tr>
             <?php } ?>
         </table>
@@ -142,8 +170,6 @@ form input[type="submit"]:hover {
 
     </div>
 </div>
-
-
 
 <?php
     include "./vue/pied.php";
