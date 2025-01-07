@@ -22,13 +22,14 @@ if (isset($_POST["ajouter"])) {
 if(isset($_GET["supp"])) {
     $nouvelleActivite = new Activites();
     $nouvelleActivite->setId($_GET["supp"]);
-    if($nouvelleActivite->supprimerActivite()) {
+
+    // Supprimer l'activité et les affiliations
+    if($nouvelleActivite->supprimerActiviteEtAffiliations()) {
         header("location: index.php");
     } else {
-        echo "<p>Erreur lors de la suppression de l'activité.</p>";
+        echo "<p>Erreur lors de la suppression de l'activité et des affiliations.</p>";
     }
 }
-
 
 if (isset($_POST["modifier"])) {
     
