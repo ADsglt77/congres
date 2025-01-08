@@ -34,16 +34,77 @@ button.danger {
 button.danger:hover {
     background-color: #c9302c;
 }
+
+.titre {
+    margin-top: 50px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
 </style>
 
-
 <div class="container">
-    <div class="center">
-
+    <div class="titre">
         <h1>Gestion des inscriptions</h1>
+    </div>
+
+    <div class="center">
         <?php if (!empty($message)) : ?>
             <p><?php echo htmlspecialchars($message); ?></p>
         <?php endif; ?>
+
+        <!-- Liste des Congressistes -->
+        <section>
+            <h2>Liste des Congressistes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Adresse</th>
+                        <th>Voir les inscriptions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($LesCongressistes as $congressiste) { ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($congressiste->id); ?></td>
+                            <td><?php echo htmlspecialchars($congressiste->nom_congressiste); ?></td>
+                            <td><?php echo htmlspecialchars($congressiste->adresse); ?></td>
+                            <td><a href="./?action=congressiste&id=<?php echo $congressiste->id; ?>">Voir les inscriptions</a></tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Étape 1 : Choisir une activité -->
         <section>
             <h2>Étape 1 : Choisissez une activité</h2>
             <form method="POST">
@@ -59,6 +120,8 @@ button.danger:hover {
                 <button type="submit" name="choisir_activite">Valider l'activité</button>
             </form>
         </section>
+
+        <!-- Étape 2 : Choisir un congressiste -->
         <?php if (!empty($activiteSelectionnee)) : ?>
             <section>
                 <h2>Étape 2 : Choisissez un congressiste</h2>
@@ -77,6 +140,8 @@ button.danger:hover {
                 </form>
             </section>
         <?php endif; ?>
+
+        <!-- Étape 3 : Inscrire ou annuler -->
         <?php if (!empty($activiteSelectionnee) && !empty($congressisteSelectionne)) : ?>
             <section>
                 <h2>Étape 3 : Inscrire ou annuler</h2>
@@ -88,13 +153,7 @@ button.danger:hover {
                 </form>
             </section>
         <?php endif; ?>
-    
     </div>
 </div>
 
-
 <?php include "./vue/pied.php"; ?>
-
-
-
-
