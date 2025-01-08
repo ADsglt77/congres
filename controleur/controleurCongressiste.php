@@ -7,6 +7,7 @@ $LesActivites = []; // Contiendra les activités
 $LesCongressistes = []; // Contiendra les congressistes
 $activiteSelectionnee = null;
 $congressisteSelectionne = null;
+$activitesInscrites = []; // Contiendra les activités auxquelles le congressiste est inscrit
 
 // Initialiser un objet Congressiste
 $unCongressiste = new Congressiste();
@@ -17,64 +18,53 @@ $LesActivites = $unCongressiste->getToutesActivites(); // Méthode à ajouter au
 // Charger tous les congressistes
 $LesCongressistes = $unCongressiste->getTousCongressistes();
 
-// Étape 2 : Gestion de la sélection d'une activité
-if (isset($_POST["choisir_activite"])) {
-    $activiteSelectionnee = $_POST["id_activite"];
-    $LesCongressistes = $unCongressiste->getTousCongressistes();
+// Étape 2 : Gestion de la sélection d'un congressiste
+if (isset($_POST["voir_inscriptions"])) {
+    $congressisteSelectionne = $unCongressiste->getCongressisteById($_POST["id_congressiste"]);
+    $activitesInscrites = $unCongressiste->getActivitesInscrites($congressisteSelectionne->id);
 }
 
-// Étape 3 : Gestion de la sélection d'un congressiste
-if (isset($_POST["choisir_congressiste"])) {
-    $activiteSelectionnee = $_POST["id_activite"];
-    $congressisteSelectionne = $_POST["id_congressiste"];
-    $LesCongressistes = $unCongressiste->getTousCongressistes(); // Recharger les congressistes
-}
-
-// Inscription d'un congressiste à une activité
+// Inscription et désinscription d'un congressiste aux activités
 if (isset($_POST["inscrire"])) {
-    if (isset($_POST["id_congressiste"]) && isset($_POST["id_activites"])) {
+    if (isset($_POST["id_congressiste"])) {
         $unCongressiste->setId((int)$_POST["id_congressiste"]);
-        $idActivites = $_POST["id_activites"];
+        $idActivites = $_POST["id_activites"] ?? []; // Si aucune activité n'est cochée, $idActivites sera un tableau vide
+        $activitesInscrites = $unCongressiste->getActivitesInscrites($unCongressiste->getId());
 
         $success = true;
         $errors = [];
+
+        // Inscrire aux nouvelles activités
         foreach ($idActivites as $idActivite) {
             $idActivite = (int)$idActivite;
-            if (!$unCongressiste->inscrireActivite($idActivite)) {
-                $errors[] = "Erreur : le congressiste est déjà inscrit à l'activité ID: $idActivite.";
-                $success = false;
+            if (!in_array($idActivite, $activitesInscrites)) {
+                if (!$unCongressiste->inscrireActivite($idActivite)) {
+                    $errors[] = "Erreur : le congressiste est déjà inscrit à l'activité ID: $idActivite.";
+                    $success = false;
+                }
+            }
+        }
+
+        // Désinscrire des activités décochées
+        foreach ($activitesInscrites as $idActivite) {
+            if (!in_array($idActivite, $idActivites)) {
+                if (!$unCongressiste->annulerInscription($idActivite)) {
+                    $errors[] = "Erreur : impossible de désaffilier de l'activité ID: $idActivite.";
+                    $success = false;
+                }
             }
         }
 
         if ($success) {
-            $message = "Le congressiste a été inscrit aux activités sélectionnées avec succès.";
+            $message = "Le congressiste a été inscrit/désinscrit aux activités sélectionnées avec succès.";
         } else {
             foreach ($errors as $error) {
                 $message .= "<p>$error</p>";
             }
         }
     } else {
-        $message = "Erreur : veuillez sélectionner un congressiste et des activités.";
+        $message = "Erreur : veuillez sélectionner un congressiste.";
     }
-    $activiteSelectionnee = $_POST["id_activite"] ?? null;
-    $congressisteSelectionne = $_POST["id_congressiste"] ?? null;
-}
-
-// Annulation de l'inscription
-if (isset($_POST["annuler"])) {
-    if (isset($_POST["id_congressiste"]) && isset($_POST["id_activite"])) {
-        $unCongressiste->setId((int)$_POST["id_congressiste"]);
-        $idActivite = (int)$_POST["id_activite"];
-
-        if ($unCongressiste->annulerInscription($idActivite)) {
-            $message = "L'inscription a été annulée avec succès.";
-        } else {
-            $message = "Erreur : impossible de désaffilier (facture existante).";
-        }
-    } else {
-        $message = "Erreur : veuillez sélectionner un congressiste et une activité.";
-    }
-    $activiteSelectionnee = $_POST["id_activite"] ?? null;
     $congressisteSelectionne = $_POST["id_congressiste"] ?? null;
 }
 
