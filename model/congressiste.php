@@ -41,7 +41,24 @@ class Congressiste {
         $this->Adresse = $nouvelleAdresse;
     }
 
-    // Méthodes pour interagir avec la base de données
+    public function getCongressisteById(int $id) {
+        include "bd.php";
+        $req = "SELECT * FROM congressiste WHERE id = ?";
+        $stmt = $pdo->prepare($req);
+        $stmt->bindValue(1, $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function getActivitesInscrites(int $idCongressiste) {
+        include "bd.php";
+        $req = "SELECT id_activite FROM participer_activite WHERE id_congressiste = ?";
+        $stmt = $pdo->prepare($req);
+        $stmt->bindValue(1, $idCongressiste);
+        $stmt->execute();
+        $activitesInscrites = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        return $activitesInscrites;
+    }
     public function getTousCongressistes() {
         include "bd.php";
         $req = "SELECT * FROM congressiste";
@@ -59,60 +76,61 @@ class Congressiste {
     }
     public function inscrireActivite(int $idActivite): bool {
         include "bd.php";
-
+    
+        // Vérifier si le congressiste existe
+        $reqExistence = "SELECT COUNT(*) FROM congressiste WHERE id = ?";
+        $stmt = $pdo->prepare($reqExistence);
+        $stmt->bindValue(1, $this->Id, PDO::PARAM_INT);
+        $stmt->execute();
+        if ($stmt->fetchColumn() == 0) {
+            return false; // Le congressiste n'existe pas
+        }
+    
         // Vérifier si une facture existe
         $reqFacture = "SELECT * FROM facture WHERE id_congressiste = ?";
         $stmt = $pdo->prepare($reqFacture);
-        $stmt->bindValue(1, $this->Id);
+        $stmt->bindValue(1, $this->Id, PDO::PARAM_INT);
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
             return false; // Facture existante
         }
-
-
-
-
-
-
-
-
-
-
+    
         // Vérifier si le congressiste est déjà inscrit
         $reqInscription = "SELECT * FROM participer_activite WHERE id_congressiste = ? AND id_activite = ?";
         $stmt = $pdo->prepare($reqInscription);
-        $stmt->bindValue(1, $this->Id);
-        $stmt->bindValue(2, $idActivite);
+        $stmt->bindValue(1, $this->Id, PDO::PARAM_INT);
+        $stmt->bindValue(2, $idActivite, PDO::PARAM_INT);
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
             return false; // Déjà inscrit
         }
-
+    
         // Ajouter l'inscription
         $reqAjout = "INSERT INTO participer_activite (id_congressiste, id_activite) VALUES (?, ?)";
         $stmt = $pdo->prepare($reqAjout);
-        $stmt->bindValue(1, $this->Id);
-        $stmt->bindValue(2, $idActivite);
+        $stmt->bindValue(1, $this->Id, PDO::PARAM_INT);
+        $stmt->bindValue(2, $idActivite, PDO::PARAM_INT);
         return $stmt->execute();
     }
 
+  
     public function annulerInscription(int $idActivite): bool {
         include "bd.php";
-
+    
         // Vérifier si une facture existe
         $reqFacture = "SELECT * FROM facture WHERE id_congressiste = ?";
         $stmt = $pdo->prepare($reqFacture);
-        $stmt->bindValue(1, $this->Id);
+        $stmt->bindValue(1, $this->Id, PDO::PARAM_INT);
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
             return false; // Facture existante
         }
-
+    
         // Supprimer l'inscription
         $reqSuppression = "DELETE FROM participer_activite WHERE id_congressiste = ? AND id_activite = ?";
         $stmt = $pdo->prepare($reqSuppression);
-        $stmt->bindValue(1, $this->Id);
-        $stmt->bindValue(2, $idActivite);
+        $stmt->bindValue(1, $this->Id, PDO::PARAM_INT);
+        $stmt->bindValue(2, $idActivite, PDO::PARAM_INT);
         return $stmt->execute();
     }
     function getInscritsPourActivite($id_activite) {
@@ -132,6 +150,7 @@ class Congressiste {
         // Retourner les résultats sous forme de tableau associatif
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 }
 ?>
 
