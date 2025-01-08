@@ -108,7 +108,7 @@ a.modify:hover {
 <div class="container">
     <div class="center">
 
-        <h1>Bienvenue à l'inscription aux activités</h1>
+        <h1>Bienvenue à la gestion des activités</h1>
         <h1>Liste des Activités</h1>
         <table>
             <tr>
