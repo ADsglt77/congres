@@ -10,14 +10,26 @@ $facture = new Facture($connection);
 $id_facture = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($id_facture <= 0) {
-    die("Erreur : ID de facture invalide.");
+    die("
+        echo '<div class='notif error'>';
+        echo '<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><!-- Icon from Sargam Icons by Abhimanyu Rana - https://github.com/planetabhi/sargam-icons/blob/main/LICENSE.txt --><g fill='none'><path fill='white' fill-opacity='.16' d='M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2'/><path stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='10' stroke-width='1.5' d='M12 16h.008M12 8v5m10-1c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10s10-4.477 10-10'/></g></svg>';
+        echo '<p>ID de facture invalide<p>';
+        echo '</div>';
+        "
+    );
 }
 
 // Récupérer les informations de la facture
 $factureInfo = $facture->getFactureInfo($id_facture);
 // Vérifier si la facture existe
 if (!$factureInfo) {
-    die("Erreur : Facture introuvable.");
+    die("
+        echo '<div class='notif error'>';
+        echo '<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><!-- Icon from Sargam Icons by Abhimanyu Rana - https://github.com/planetabhi/sargam-icons/blob/main/LICENSE.txt --><g fill='none'><path fill='white' fill-opacity='.16' d='M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2'/><path stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='10' stroke-width='1.5' d='M12 16h.008M12 8v5m10-1c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10s10-4.477 10-10'/></g></svg>';
+        echo '<p>Facture introuvable<p>';
+        echo '</div>';
+        "
+    );
 }
 
 // Vérifier si l'utilisateur est admin ou appartient à la facture
@@ -33,7 +45,7 @@ if ($_SESSION['is_admin']) {
 
 if (!$userAuthorized) {
     die('
-        <div class="card error">
+        <div class="notif error">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><!-- Icon from Sargam Icons by Abhimanyu Rana - https://github.com/planetabhi/sargam-icons/blob/main/LICENSE.txt --><g fill="none"><path fill="white" fill-opacity=".16" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2"/><path stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 16h.008M12 8v5m10-1c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10s10-4.477 10-10"/></g></svg>
         <p>Vous n\'êtes pas autorisé à voir cette facture<p>
         </div>

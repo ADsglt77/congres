@@ -718,6 +718,10 @@ input[type="checkbox"] {
     background-color: rgb(var(--error));
 }
 
+.notif.info {
+    background-color: rgb(var(--info));
+}
+
 .notif p {
     color: white;
     font-size: var(--txt-sm);
