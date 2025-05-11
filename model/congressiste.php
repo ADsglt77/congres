@@ -76,17 +76,6 @@ class Congressiste {
     }
     public function inscrireActivite(int $idActivite): bool {
         include "bd.php";
-    
-        // Vérifier si le congressiste existe
-        $reqExistence = "SELECT COUNT(*) FROM congressiste WHERE id = ?";
-        $stmt = $pdo->prepare($reqExistence);
-        $stmt->bindValue(1, $this->Id, PDO::PARAM_INT);
-        $stmt->execute();
-        if ($stmt->fetchColumn() == 0) {
-            return false; // Le congressiste n'existe pas
-        }
-    
-    
         // Vérifier si le congressiste est déjà inscrit
         $reqInscription = "SELECT * FROM participer_activite WHERE id_congressiste = ? AND id_activite = ?";
         $stmt = $pdo->prepare($reqInscription);
