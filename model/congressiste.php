@@ -106,23 +106,7 @@ class Congressiste {
         return $stmt->execute();
     }
 
-    function getInscritsPourActivite($id_activite) {
-        global $pdo; 
-    
-        // Requête SQL pour récupérer les inscrits à une activité spécifique
-        $sql = "SELECT c.nom_congressiste, a.nom AS nom_activite, c.id AS id_congressiste
-                FROM congressiste c
-                JOIN participer_activite pa ON c.id = pa.id_congressiste
-                JOIN activite a ON pa.id_activite = a.id
-                WHERE a.id = ?";
-        
-        // Préparation et exécution de la requête
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$id_activite]);
-        
-        // Retourner les résultats sous forme de tableau associatif
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+  
     
 }
 ?>
