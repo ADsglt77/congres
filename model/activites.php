@@ -65,16 +65,6 @@
             return $lesActivites;
         }
 
-        public function getActiviteById() {
-            include "bd.php";
-            $req = "SELECT * FROM activite WHERE id = ?";
-            $stmt = $pdo->prepare($req);
-            $stmt->bindValue(1, $this->Id);
-            $stmt->execute();
-            $UneActivite = $stmt->fetch(PDO::FETCH_OBJ);
-            return $UneActivite;
-        }
-
         public function ajouterActivite() {
             include "bd.php";
             $req = "INSERT INTO activite VALUES (null, ?, ?, ?, ?)";
@@ -83,14 +73,6 @@
             $stmt->bindValue(2, $this->Prix);
             $stmt->bindValue(3, $this->Date);
             $stmt->bindValue(4, $this->Heure);
-            return $stmt->execute();
-        }
-
-        public function supprimerActivite() {
-            include "bd.php";
-            $req = "DELETE FROM activite WHERE id = ?";
-            $stmt = $pdo->prepare($req);
-            $stmt->bindValue(1, $this->Id);
             return $stmt->execute();
         }
 
