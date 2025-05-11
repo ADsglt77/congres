@@ -2,39 +2,35 @@
 
 include "model/congressiste.php";
 
-$message = ""; // Variable pour afficher les messages d'erreur ou de confirmation
-$LesActivites = []; // Contiendra les activités
-$LesCongressistes = []; // Contiendra les congressistes
-$activiteSelectionnee = null;
+$message = "";
+$LesActivites = [];
+$LesCongressistes = [];
 $congressisteSelectionne = null;
-$activitesInscrites = []; // Contiendra les activités auxquelles le congressiste est inscrit
+$activitesInscrites = [];
 
-// Initialiser un objet Congressiste
 $unCongressiste = new Congressiste();
 
-// Étape 1 : Charger les activités
-$LesActivites = $unCongressiste->getToutesActivites(); // Méthode à ajouter au modèle Congressiste
-
-// Charger tous les congressistes
+// Charger toutes les activités et congressistes
+$LesActivites = $unCongressiste->getToutesActivites();
 $LesCongressistes = $unCongressiste->getTousCongressistes();
 
-// Étape 2 : Gestion de la sélection d'un congressiste
+// Voir les inscriptions d’un congressiste
 if (isset($_POST["voir_inscriptions"])) {
     $congressisteSelectionne = $unCongressiste->getCongressisteById($_POST["id_congressiste"]);
     $activitesInscrites = $unCongressiste->getActivitesInscrites($congressisteSelectionne->id);
 }
 
-// Inscription et désinscription d'un congressiste aux activités
+// Mettre à jour les inscriptions
 if (isset($_POST["inscrire"])) {
     if (isset($_POST["id_congressiste"])) {
         $unCongressiste->setId((int)$_POST["id_congressiste"]);
-        $idActivites = $_POST["id_activites"] ?? []; // Si aucune activité n'est cochée, $idActivites sera un tableau vide
+        $idActivites = $_POST["id_activites"] ?? [];
         $activitesInscrites = $unCongressiste->getActivitesInscrites($unCongressiste->getId());
 
         $success = true;
         $errors = [];
 
-        // Inscrire aux nouvelles activités
+        // Inscription aux nouvelles activités
         foreach ($idActivites as $idActivite) {
             $idActivite = (int)$idActivite;
             if (!in_array($idActivite, $activitesInscrites)) {
@@ -45,7 +41,7 @@ if (isset($_POST["inscrire"])) {
             }
         }
 
-        // Désinscrire des activités décochées
+        // Désinscription des activités décochées
         foreach ($activitesInscrites as $idActivite) {
             if (!in_array($idActivite, $idActivites)) {
                 if (!$unCongressiste->annulerInscription($idActivite)) {
@@ -62,11 +58,13 @@ if (isset($_POST["inscrire"])) {
                 $message .= "<p>$error</p>";
             }
         }
+
+        // Recharger le congressiste pour l’affichage
+        $congressisteSelectionne = $unCongressiste->getCongressisteById($unCongressiste->getId());
+        $activitesInscrites = $unCongressiste->getActivitesInscrites($unCongressiste->getId());
     } else {
         $message = "Erreur : veuillez sélectionner un congressiste.";
     }
-    $congressisteSelectionne = $_POST["id_congressiste"] ?? null;
 }
 
-// Inclure la vue
 include_once "vue/vueCongressiste.php";
