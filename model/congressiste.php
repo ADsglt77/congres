@@ -86,14 +86,6 @@ class Congressiste {
             return false; // Le congressiste n'existe pas
         }
     
-        // Vérifier si une facture existe
-        $reqFacture = "SELECT * FROM facture WHERE id_congressiste = ?";
-        $stmt = $pdo->prepare($reqFacture);
-        $stmt->bindValue(1, $this->Id, PDO::PARAM_INT);
-        $stmt->execute();
-        if ($stmt->rowCount() > 0) {
-            return false; // Facture existante
-        }
     
         // Vérifier si le congressiste est déjà inscrit
         $reqInscription = "SELECT * FROM participer_activite WHERE id_congressiste = ? AND id_activite = ?";
@@ -117,15 +109,6 @@ class Congressiste {
     public function annulerInscription(int $idActivite): bool {
         include "bd.php";
     
-        // Vérifier si une facture existe
-        $reqFacture = "SELECT * FROM facture WHERE id_congressiste = ?";
-        $stmt = $pdo->prepare($reqFacture);
-        $stmt->bindValue(1, $this->Id, PDO::PARAM_INT);
-        $stmt->execute();
-        if ($stmt->rowCount() > 0) {
-            return false; // Facture existante
-        }
-    
         // Supprimer l'inscription
         $reqSuppression = "DELETE FROM participer_activite WHERE id_congressiste = ? AND id_activite = ?";
         $stmt = $pdo->prepare($reqSuppression);
@@ -133,8 +116,9 @@ class Congressiste {
         $stmt->bindValue(2, $idActivite, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
     function getInscritsPourActivite($id_activite) {
-        global $pdo; // Si tu utilises une connexion PDO globale, sinon adapte cette ligne
+        global $pdo; 
     
         // Requête SQL pour récupérer les inscrits à une activité spécifique
         $sql = "SELECT c.nom_congressiste, a.nom AS nom_activite, c.id AS id_congressiste
