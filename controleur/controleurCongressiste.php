@@ -1,23 +1,37 @@
 <?php
 
 include "model/congressiste.php";
+include "model/accompagnant.php"; // Ajout pour gérer les accompagnants
 
 $message = "";
 $LesActivites = [];
 $LesCongressistes = [];
+$LesAccompagnants = []; // Liste des accompagnants disponibles
 $congressisteSelectionne = null;
 $activitesInscrites = [];
+$activitesInscritesAccompagnant = [];
 
 $unCongressiste = new Congressiste();
 
-// Charger toutes les activités et congressistes
+// Charger toutes les activités, congressistes et accompagnants
 $LesActivites = $unCongressiste->getToutesActivites();
 $LesCongressistes = $unCongressiste->getTousCongressistes();
+$LesAccompagnants = (new Accompagnant())->getTousAccompagnants(); // Récupère tous les accompagnants
 
 // Voir les inscriptions d’un congressiste
 if (isset($_POST["voir_inscriptions"])) {
-    $congressisteSelectionne = $unCongressiste->getCongressisteById($_POST["id_congressiste"]);
-    $activitesInscrites = $unCongressiste->getActivitesInscrites($congressisteSelectionne->id);
+    if (isset($_POST["id_congressiste"])) {
+        $congressisteSelectionne = $unCongressiste->getCongressisteById($_POST["id_congressiste"]);
+        $activitesInscrites = $unCongressiste->getActivitesInscrites($congressisteSelectionne->id);
+
+        // Charger les activités de l'accompagnant s'il y en a un
+        if (!empty($congressisteSelectionne->id_accompagnant)) {
+            $accompagnant = new Accompagnant($congressisteSelectionne->id_accompagnant, $pdo);  // Modification ici
+            $activitesInscritesAccompagnant = $accompagnant->getActivitesInscrites($accompagnant->getId());
+        }
+    } else {
+        $message = "Erreur : Aucun congressiste sélectionné.";
+    }
 }
 
 // Mettre à jour les inscriptions
@@ -30,7 +44,7 @@ if (isset($_POST["inscrire"])) {
         $success = true;
         $errors = [];
 
-        // Inscription aux nouvelles activités
+        // Inscription aux nouvelles activités (congressiste)
         foreach ($idActivites as $idActivite) {
             $idActivite = (int)$idActivite;
             if (!in_array($idActivite, $activitesInscrites)) {
@@ -41,7 +55,7 @@ if (isset($_POST["inscrire"])) {
             }
         }
 
-        // Désinscription des activités décochées
+        // Désinscription des activités décochées (congressiste)
         foreach ($activitesInscrites as $idActivite) {
             if (!in_array($idActivite, $idActivites)) {
                 if (!$unCongressiste->annulerInscription($idActivite)) {
@@ -51,17 +65,55 @@ if (isset($_POST["inscrire"])) {
             }
         }
 
+        // Gérer l'accompagnant si présent
+        $congressisteSelectionne = $unCongressiste->getCongressisteById($unCongressiste->getId());
+        if (!empty($congressisteSelectionne->id_accompagnant)) {
+            $accompagnant = new Accompagnant($congressisteSelectionne->id_accompagnant, $pdo); // Modification ici
+            $activitesInscritesAccompagnant = $accompagnant->getActivitesInscrites($accompagnant->getId());
+            $idActivitesAccompagnant = $_POST["id_activites_accompagnant"] ?? [];
+
+            // Inscription accompagnant aux activités où le congressiste est déjà inscrit
+            foreach ($idActivitesAccompagnant as $idActivite) {
+                $idActivite = (int)$idActivite;
+
+                // Vérification si le congressiste est inscrit à l'activité avant d'ajouter l'accompagnant
+                if (in_array($idActivite, $idActivites)) {
+                    if (!in_array($idActivite, $activitesInscritesAccompagnant)) {
+                        if (!$accompagnant->inscrireActivite($idActivite, $unCongressiste->getId())) {
+                            $errors[] = "Erreur : impossible d'inscrire l'accompagnant à l'activité ID: $idActivite.";
+                            $success = false;
+                        }
+                    }
+                } else {
+                    $errors[] = "Erreur : le congressiste n'est pas inscrit à l'activité ID: $idActivite, impossible d'inscrire l'accompagnant.";
+                    $success = false;
+                }
+            }
+
+            // Désinscription des activités décochées (accompagnant)
+            foreach ($activitesInscritesAccompagnant as $idActivite) {
+                if (!in_array($idActivite, $idActivitesAccompagnant)) {
+                    if (!$accompagnant->annulerInscription($idActivite)) {
+                        $errors[] = "Erreur : impossible de désaffilier l'accompagnant de l'activité ID: $idActivite.";
+                        $success = false;
+                    }
+                }
+            }
+
+            // Rechargement pour affichage
+            $activitesInscritesAccompagnant = $accompagnant->getActivitesInscrites($accompagnant->getId());
+        }
+
+        // Recharger les activités inscrites du congressiste
+        $activitesInscrites = $unCongressiste->getActivitesInscrites($unCongressiste->getId());
+
         if ($success) {
-            $message = "Le congressiste a été inscrit/désinscrit aux activités sélectionnées avec succès.";
+            $message = "Inscriptions mises à jour avec succès.";
         } else {
             foreach ($errors as $error) {
                 $message .= "<p>$error</p>";
             }
         }
-
-        // Recharger le congressiste pour l’affichage
-        $congressisteSelectionne = $unCongressiste->getCongressisteById($unCongressiste->getId());
-        $activitesInscrites = $unCongressiste->getActivitesInscrites($unCongressiste->getId());
     } else {
         $message = "Erreur : veuillez sélectionner un congressiste.";
     }
