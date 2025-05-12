@@ -1,7 +1,7 @@
 <?php
 
-include "model/congressiste.php";
-include "model/accompagnant.php"; // Ajout pour gérer les accompagnants
+include_once "model/congressiste.php"; // Utilisation de include_once pour éviter les doublons
+include_once "model/accompagnant.php"; // Idem pour Accompagnant
 
 $message = "";
 $LesActivites = [];
@@ -119,4 +119,4 @@ if (isset($_POST["inscrire"])) {
     }
 }
 
-include_once "vue/vueCongressiste.php";
+include_once "vue/vueCongressiste.php";  // Utilisation de include_once ici aussi
